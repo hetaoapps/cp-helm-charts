@@ -2,6 +2,7 @@
   {{- $fullName := include "cp-kafka.fullname" . }}
   {{- $brokers := .Values.brokers | int }}
   {{- $servicePort := .Values.nodeport.servicePort }}
+  {{- $annotations := .Values.nodeport.annotations }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
@@ -17,7 +18,7 @@ metadata:
     release: {{ $root.Release.Name }}
     heritage: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
-  {{- with .Values.nodeport.annotations }}
+  {{- with $annotations }}
   annotations:
     {{ toYaml . | nindent 4 }}
   {{- end }}
