@@ -7,9 +7,9 @@ metadata:
     chart: {{ template "cp-kafka.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  {{- with .Values.headlessService.annotations }}
   annotations:
-  {{- if .Values.headlessService.annotations }}
-  {{- include "common.tplvalues.render" (dict "value" .Values.headlessService.annotations "context" $) | nindent 4 }}
+  {{ toYaml . | indent 4 }}
   {{- end }}
 spec:
   ports:
