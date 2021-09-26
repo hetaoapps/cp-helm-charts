@@ -18,8 +18,10 @@ metadata:
     release: {{ $root.Release.Name }}
     heritage: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
+  {{- if .Values.nodeport.annotations }}
   annotations:
-  {{ toYaml .$annotations | indent 4 }}
+  {{ toYaml .Values.nodeport.annotations | indent 4 }}
+  {{- end }}
 spec:
   type: NodePort
   ports:
