@@ -20,7 +20,7 @@ metadata:
     pod: {{ $responsiblePod }}
   {{- if .Values.nodeport.annotations }}
   annotations:
-  {{ toYaml .Values.nodeport.annotations | indent 4 }}
+  {{ toYaml .Values.nodeport.annotations}}
   {{- end }}
 spec:
   type: NodePort
