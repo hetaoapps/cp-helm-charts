@@ -138,6 +138,8 @@ nodeport:
   enabled: false
   servicePort: 19092
   firstListenerPort: 31090
+  annotations: {}
+
 
 headlessService:
   annotations: {}
