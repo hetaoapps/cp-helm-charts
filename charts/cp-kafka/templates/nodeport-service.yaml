@@ -2,7 +2,6 @@
   {{- $fullName := include "cp-kafka.fullname" . }}
   {{- $brokers := .Values.brokers | int }}
   {{- $servicePort := .Values.nodeport.servicePort }}
-  {{- $annotations := .Values.nodeport.annotations }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
