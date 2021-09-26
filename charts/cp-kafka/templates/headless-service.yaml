@@ -20,6 +20,7 @@ spec:
       {{- else if eq .Values.headlessService.serviceType "ClusterIP" }}
       nodePort: null
       {{- end }}
+  clusterIP: null
   selector:
     app: {{ template "cp-kafka.name" . }}
     release: {{ .Release.Name }}
