@@ -15,7 +15,10 @@ spec:
   ports:
     - port: 9092
       name: broker
+      {{- if and (or (eq .Values.headlessService.serviceType "NodePort") (eq .Values.headlessService.serviceType "LoadBalancer")) (not (empty .Values.headlessService.nodePort)) }}
+      nodePort: {{ .Values.headlessService.nodePort }}
   clusterIP: None
   selector:
     app: {{ template "cp-kafka.name" . }}
     release: {{ .Release.Name }}
+  type: {{ .Values.headlessService.serviceType }}

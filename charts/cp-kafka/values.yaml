@@ -140,6 +140,8 @@ nodeport:
   firstListenerPort: 31090
 
 headlessService:
+  serviceType: ClusterIP
+  nodePort: ''
   annotations: {}
 
 ## ------------------------------------------------------
