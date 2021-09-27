@@ -5,9 +5,10 @@
   {{- $externalDnsHostName := .Values.nodeport.externalDnsHostName }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
-    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
     {{- $responsiblePod := printf "%s-%d" (printf "%s" $fullName) $i }}
+    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
+    {{- $hostname := printf "%s.%s" $brokerName $externalDnsHostName | trimSuffix "-" -}}
 ---
 apiVersion: v1
 kind: Service
@@ -20,7 +21,7 @@ metadata:
     heritage: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{- printf "%s.%s" $brokerName $externalDnsHostName | trimSuffix "-" -}}
+    external-dns.alpha.kubernetes.io/hostname: {{ $hostname }}
 
 spec:
   type: NodePort
