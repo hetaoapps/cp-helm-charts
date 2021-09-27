@@ -5,6 +5,7 @@
   {{- $externalDnsHostName := .Values.nodeport.externalDnsHostName }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
+    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
     {{- $responsiblePod := printf "%s-%d" (printf "%s" $fullName) $i }}
 ---
@@ -20,7 +21,6 @@ metadata:
     pod: {{ $responsiblePod }}
   {{- if $externalDnsHostName -}}
   annotations:
-    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
     external-dns.alpha.kubernetes.io/hostname: {{- printf "%s.%d" (printf "%s" $externalDnsHostName) $brokerName }}
   {{- end }}
 spec:
