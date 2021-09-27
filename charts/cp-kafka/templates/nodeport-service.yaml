@@ -2,7 +2,7 @@
   {{- $fullName := include "cp-kafka.fullname" . }}
   {{- $brokers := .Values.brokers | int }}
   {{- $servicePort := .Values.nodeport.servicePort }}
-  {{- $annotations := .Values.nodeport.annotations }}
+  {{- $externalDnsHostName := .Values.nodeport.externalDnsHostName }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
@@ -18,9 +18,10 @@ metadata:
     release: {{ $root.Release.Name }}
     heritage: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
-  {{- with $annotations }}
+  {{- if $externalDnsHostName -}}
   annotations:
-    {{ toYaml . | nindent 4 }}
+    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
+    external-dns.alpha.kubernetes.io/hostname: {{- printf "%s.%d" (printf "%s" $externalDnsHostName) $brokerName }}
   {{- end }}
 spec:
   type: NodePort
