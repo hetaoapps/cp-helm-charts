@@ -8,7 +8,7 @@
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
     {{- $responsiblePod := printf "%s-%d" (printf "%s" $fullName) $i }}
     {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i }}
-    {{- $hostname := printf "%s.%s" $brokerName $externalDnsHostName -}}
+    {{- $hostname := printf "%s.%s" $brokerName $externalDnsHostName }}
 ---
 apiVersion: v1
 kind: Service
@@ -21,7 +21,7 @@ metadata:
     heritage: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{ $hostname | quote }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $hostname | nindent 4 }}
 
 spec:
   type: NodePort
