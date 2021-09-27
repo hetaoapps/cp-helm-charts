@@ -5,7 +5,7 @@
   {{- $externalDnsHostName := .Values.nodeport.externalDnsHostName }}
   {{- $root := . }}
   {{- range $i, $e := until $brokers }}
-    {{- $brokerName := printf "%s-%s" "broker" $i | trimSuffix "-"}}
+    {{- $brokerName := printf "%s-%d" (printf "%s" "broker") $i | trimSuffix "-" | quote}}
     {{- $externalListenerPort := add $root.Values.nodeport.firstListenerPort $i }}
     {{- $responsiblePod := printf "%s-%d" (printf "%s" $fullName) $i }}
 ---
